@@ -2,19 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
+  labels:
+    service: frontend
 spec:
   selector:
     matchLabels:
-      run: frontend
+      service: frontend
   replicas: 2
   template:
     metadata:
       labels:
-        run: frontend
+        service: frontend
     spec:
       containers:
       - name: frontend
-        image: docker.io/trex247/udagram-frontend:v3
+        image: docker.io/trex247/udagram-frontend:v1.1
         ports: 
         - containerPort: 80
         resources:
@@ -29,11 +31,11 @@ kind: Service
 metadata:
   name: frontend
   labels:
-    run: frontend
+    service: frontend
 spec:
   ports:
   - name: "8100"
     port: 8100
     targetPort: 80
   selector:
-    run: frontend
+    service: frontend
